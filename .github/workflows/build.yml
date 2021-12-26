@@ -38,20 +38,20 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --configuration Release --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura" /p:CoverletOutput="TestResults/" /p:UseSourceLink=true
 
-    - name: Upload build artefact ExchangeCrimeSceneCleaner
+    - name: Upload build artefact ExchangeCrimeSceneCleanerCli
       uses: actions/upload-artifact@v2
       with:
-        name: myDupFinder
-        path: D:\a\ExchangeCrimeSceneCleaner\src\rogerbriggen.myDupFinder\bin\Release\${{ env.RELEASE_SUBDIR }}\
+        name: ExchangeCrimeSceneCleanerCli
+        path: D:\a\ExchangeCrimeSceneCleaner\ExchangeCrimeSceneCleaner\src\ExchangeCrimeSceneCleanerCli\bin\Release\${{ env.RELEASE_SUBDIR }}\
 
-    - name: Upload build artefact myDupFinderUnitTest
-      uses: actions/upload-artifact@v2
-      with:
-        name: myDupFinderLibUnitTest
-        path: D:\a\myDupFinder\myDupFinder\tests\rogerbriggen.myDupFinderLibUnitTest\bin\Release\${{ env.RELEASE_SUBDIR }}\
+#    - name: Upload build artefact ExchangeCrimeSceneCleanerLibUnitTest
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: ExchangeCrimeSceneCleanerLibUnitTest
+#        path: D:\a\myDupFinder\myDupFinder\tests\rogerbriggen.myDupFinderLibUnitTest\bin\Release\${{ env.RELEASE_SUBDIR }}\
 
-    - name: Upload build artefact myDupFinderUnitTest TestResults
-      uses: actions/upload-artifact@v2
-      with:
-        name: myDupFinderLibUnitTestCodeCoverage
-        path: D:\a\myDupFinder\myDupFinder\tests\rogerbriggen.myDupFinderLibUnitTest\TestResults\
+#    - name: Upload build artefact myDupFinderUnitTest TestResults
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: myDupFinderLibUnitTestCodeCoverage
+#        path: D:\a\myDupFinder\myDupFinder\tests\rogerbriggen.myDupFinderLibUnitTest\TestResults\
