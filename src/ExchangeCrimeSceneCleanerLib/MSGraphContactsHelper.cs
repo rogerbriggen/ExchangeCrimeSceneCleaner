@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Core;
@@ -16,7 +17,6 @@ public class MSGraphContactsHelper
 {
     public const string ContactURL = "contacts?";
 
-
     public static async Task<List<Contact>?> GetAllContactsAsync()
     {
         try
@@ -25,15 +25,6 @@ public class MSGraphContactsHelper
             // GET /contacts
             var contacts = await MSGraphHelper.graphClient!.Me.Contacts.Request().GetAsync();
             Console.WriteLine($"Contact count {contacts.Count}!\n");
-            if (contacts.Count > 0)
-            {
-                foreach (var contact in contacts)
-                {
-                    Console.WriteLine($"Cont {contact.DisplayName}  {contact.Birthday}!\n");
-                    allContacts.Add(contact);
-                }
-            }
-            //return contacts;
 
             var pageIterator = PageIterator<Contact>
                 .CreatePageIterator(
@@ -42,7 +33,7 @@ public class MSGraphContactsHelper
                     // Callback executed for each item in the collection
                     (contact) =>
                     {
-                        Console.WriteLine($"Contact2 {contact.DisplayName}  {contact.Birthday}!\n");
+                        Console.WriteLine($"Contact {contact.DisplayName}  {contact.Birthday}!\n");
                         allContacts.Add(contact);
                         return true;
                     }
@@ -77,6 +68,28 @@ public class MSGraphContactsHelper
             Console.WriteLine($"Error getting signed-in user: {ex.Message}");
             return null;
         }
+    }
+
+    public static List<Contact> FilterOnlyBirthday(List<Contact> allContacts)
+    {
+        return allContacts.Where(u => u.Birthday != null).ToList();
+    }
+
+    public static void writeContactListToFile(string filename, List<Contact> contacts)
+    {
+        string jsonString = JsonSerializer.Serialize(contacts);
+        System.IO.File.WriteAllText(filename, jsonString);
+    }
+
+    public static List<Contact> readContactListFromFile(string filename)
+    {
+        string jsonString = System.IO.File.ReadAllText(filename);
+        List<Contact>? contacts = JsonSerializer.Deserialize<List<Contact>>(jsonString);
+        if (contacts == null)
+        {
+            contacts = new List<Contact>();
+        }
+        return contacts;
     }
 
 }

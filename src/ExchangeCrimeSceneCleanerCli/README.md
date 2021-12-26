@@ -23,6 +23,14 @@ see also:
 
     ![A screenshot of the Register an application page](docs/images/readme_app_registration_settings.png)
 
+    **Note**
+
+    If you choose InteractiveBrowserCredential instead of DeviceCodeCredential which is much easier since it will open the browser and you don't have to paste the code yourself, you also have to add:
+    - Under **Redirect URI**, add the value `http://localhost`.
+
+    ![A screenshot of the Register an application page](docs/images/readme_app_registration_settings_InteractiveBrowserCredential.png)
+
+
 1. Select **Register**. On the **ExchangeCrimeSceneCleaner** page, copy the value of the **Application (client) ID** and save it, you will need it in the next step.
 
     ![A screenshot of the application ID of the new app registration](docs/images/readme_app_registration_app_id.png)

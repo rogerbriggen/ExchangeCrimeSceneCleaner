@@ -12,7 +12,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        Console.WriteLine("Hello from ExchangeCrimeSceneCleaner!");
 
         var appConfig = LoadAppSettings();
 
@@ -35,14 +35,34 @@ public class Program
         });
 
         //var accessToken = MSGraphHelper.GetAccessTokenAsync(scopes).Result;
-        
+
         // Get signed in user
         var user = MSGraphContactsHelper.GetMeAsync().Result;
         Console.WriteLine($"Welcome {user!.DisplayName} {user!.Birthday}  {user.MailboxSettings.TimeZone}!\n");
 
         //Get all contacts
         var contactList = MSGraphContactsHelper.GetAllContactsAsync().Result;
-        Console.WriteLine($"Contact count: {contactList!.Count}\n"); 
+
+        if (contactList != null)
+        {
+            //Write out all contacts
+            MSGraphContactsHelper.writeContactListToFile("allContacts.json", contactList);
+            //Filter only those with a birthday
+            var birthdayContactList = MSGraphContactsHelper.FilterOnlyBirthday(contactList);
+            MSGraphContactsHelper.writeContactListToFile("filteredContacts.json", birthdayContactList);
+            Console.WriteLine($"Birthday contact count: {birthdayContactList!.Count}\n");
+
+            //Write a list with contacts with a brithday but only very limited fields
+            var birthdayContactListShort = new List<BirthdayContact>();
+            foreach(var contact in birthdayContactList)
+            {
+                birthdayContactListShort.Add(new BirthdayContact(contact));
+            }
+            BirthdayContact.writeBirthdayContactListToFile("filteredBirthdayContacts.json", birthdayContactListShort);
+        }
+
+        Console.WriteLine($"Contact count: {contactList!.Count}\n");
+        
     }
 
     static IConfigurationRoot? LoadAppSettings()
