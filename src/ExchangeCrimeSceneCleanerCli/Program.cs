@@ -58,7 +58,7 @@ public class Program
             {
                 birthdayContactListShort.Add(new BirthdayContact(contact));
             }
-            BirthdayContact.writeBirthdayContactListToFile("filteredBirthdayContacts.json", birthdayContactListShort);
+            BirthdayContactJSON.writeBirthdayContactListToFile("filteredBirthdayContacts.json", birthdayContactListShort);
         }
 
         Console.WriteLine($"Contact count: {contactList!.Count}\n");
