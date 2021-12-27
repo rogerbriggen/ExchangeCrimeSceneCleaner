@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Roger.Briggen.ExchangeCrimeSceneCleanerLib;
 
+/// <summary>
+/// Class used for a shorter version specialized for bithday stuff... 
+/// </summary>
 public class BirthdayContact
 {
     public BirthdayContact()
@@ -122,28 +125,15 @@ public class BirthdayContact
         set;
     }
 
+    [JsonPropertyName("id")]
     public string Id
     {
         get;
         set;
     }
 
-    public static void writeBirthdayContactListToFile(string filename, List<BirthdayContact> contacts)
-    {
-        string jsonString = JsonSerializer.Serialize(contacts);
-        System.IO.File.WriteAllText(filename, jsonString);
-    }
-
-    public static List<BirthdayContact> readBirthdayContactListFromFile(string filename)
-    {
-        string jsonString = System.IO.File.ReadAllText(filename);
-        List<BirthdayContact>? contacts = JsonSerializer.Deserialize<List<BirthdayContact>>(jsonString);
-        if (contacts == null)
-        {
-            contacts = new List<BirthdayContact>();
-        }
-        return contacts;
-    }
-
-
 }
+
+
+
+
