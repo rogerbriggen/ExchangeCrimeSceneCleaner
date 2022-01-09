@@ -33,7 +33,7 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build src\ExchangeCrimeSceneCleanerCli\ExchangeCrimeSceneCleanerCli.csproj --configuration Release --no-restore --self-contained true -r win-x64
 
     - name: Test
       run: dotnet test --no-restore --configuration Release --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura" /p:CoverletOutput="TestResults/" /p:UseSourceLink=true
