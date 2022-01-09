@@ -45,7 +45,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ExchangeCrimeSceneCleanerCli
-        path: D:\a\ExchangeCrimeSceneCleaner\ExchangeCrimeSceneCleaner\src\ExchangeCrimeSceneCleanerCli\bin\Release\${{ env.RELEASE_SUBDIR }}\
+        path: D:\a\ExchangeCrimeSceneCleaner\ExchangeCrimeSceneCleaner\src\ExchangeCrimeSceneCleanerCli\bin\Release\${{ env.RELEASE_SUBDIR }}\win-x64\publish
 
 #    - name: Upload build artefact ExchangeCrimeSceneCleanerLibUnitTest
 #      uses: actions/upload-artifact@v2
