@@ -26,7 +26,13 @@ public class Program
         var scopesString = appConfig["scopes"];
         scopesString += ";Contacts.Read";
         var scopes = scopesString.Split(';');
-        
+
+        if (appId == null)
+        {
+            Console.WriteLine("appId is missing in appsettings.json...exiting");
+            return;
+        }
+
 
         // Initialize Graph client
         MSGraphHelper.Initialize(appId, scopes, (code, cancellation) => {
