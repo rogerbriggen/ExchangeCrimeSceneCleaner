@@ -1,18 +1,13 @@
 ﻿// Roger Briggen license this file to you under the MIT license.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Microsoft.Graph.Models;
 
 namespace Roger.Briggen.ExchangeCrimeSceneCleanerLib;
 
 /// <summary>
-/// Class used for a shorter version specialized for bithday stuff... 
+/// Class used for a shorter version specialized for birthday stuff... 
 /// </summary>
 public class BirthdayContact
 {
@@ -28,16 +23,16 @@ public class BirthdayContact
         Id = "";
     }
 
-    public BirthdayContact(Microsoft.Graph.Contact contact)
+    public BirthdayContact(Contact contact)
     {
-        DisplayName = contact.DisplayName;
-        GivenName = contact.GivenName;
-        Surname = contact.Surname;
+        DisplayName = contact.DisplayName ?? string.Empty;
+        GivenName = contact.GivenName ?? string.Empty;
+        Surname = contact.Surname ?? string.Empty;
         Birthday = contact.Birthday;
         LastModifiedDateTime = contact.LastModifiedDateTime;
-        ChangeKey = contact.ChangeKey;
+        ChangeKey = contact.ChangeKey ?? string.Empty;
         CreatedDateTime = contact.CreatedDateTime;
-        Id = contact.Id;
+        Id = contact.Id ?? string.Empty;
     }
 
     

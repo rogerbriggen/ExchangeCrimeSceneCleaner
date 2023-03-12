@@ -1,15 +1,9 @@
 ﻿// Roger Briggen license this file to you under the MIT license.
 //
 
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using Azure.Core;
-using Azure.Identity;
 using Microsoft.Graph;
-using TimeZoneConverter;
+using Microsoft.Graph.Models;
 
 namespace Roger.Briggen.ExchangeCrimeSceneCleanerLib;
 
@@ -23,23 +17,27 @@ public class MSGraphContactsHelper
         {
             List<Contact> allContacts = new List<Contact>();
             // GET /contacts
-            var contacts = await MSGraphHelper.graphClient!.Me.Contacts.Request().GetAsync();
-            Console.WriteLine($"Contact count {contacts.Count}!\n");
+            var contacts = await MSGraphHelper.graphClient!.Me.Contacts.GetAsync();
+            if (contacts != null)
+            {
+                Console.WriteLine($"Contact count {contacts.OdataCount}!\n");
 
-            var pageIterator = PageIterator<Contact>
-                .CreatePageIterator(
-                    MSGraphHelper.graphClient!,
-                    contacts,
-                    // Callback executed for each item in the collection
-                    (contact) =>
-                    {
-                        Console.WriteLine($"Contact {contact.DisplayName}  {contact.Birthday}!\n");
-                        allContacts.Add(contact);
-                        return true;
-                    }
-                );
+                var pageIterator = PageIterator<Contact, ContactCollectionResponse>
+                    .CreatePageIterator(
+                        MSGraphHelper.graphClient!,
+                        contacts,
+                        // Callback executed for each item in the collection
+                        (contact) =>
+                        {
+                            Console.WriteLine($"Contact {contact.DisplayName}  {contact.Birthday}!\n");
+                            allContacts.Add(contact);
+                            return true;
+                        }
+                    );
 
-            await pageIterator.IterateAsync();
+                await pageIterator.IterateAsync();
+            }
+            
             return allContacts;
         }
         catch (ServiceException ex)
@@ -55,13 +53,11 @@ public class MSGraphContactsHelper
         try
         {
             // GET /me
-            return await MSGraphHelper.graphClient!.Me.Request()
-                .Select(u => new {
-                    u.DisplayName,
-                    u.MailboxSettings
-                })
-                .GetAsync();
-                
+            return await MSGraphHelper.graphClient!.Me
+                .GetAsync(requestConfiguration =>
+                {
+                    requestConfiguration.QueryParameters.Select = new string[] {"displayName", "MailboxSettings" };
+                });
         }
         catch (ServiceException ex)
         {
@@ -75,20 +71,17 @@ public class MSGraphContactsHelper
         return allContacts.Where(u => u.Birthday != null).ToList();
     }
 
-    public static void writeContactListToFile(string filename, List<Contact> contacts)
+    public static void WriteContactListToFile(string filename, List<Contact> contacts)
     {
-        string jsonString = JsonSerializer.Serialize(contacts);
-        System.IO.File.WriteAllText(filename, jsonString);
+        var jsonString = JsonSerializer.Serialize(contacts);
+        File.WriteAllText(filename, jsonString);
     }
 
-    public static List<Contact> readContactListFromFile(string filename)
+    public static List<Contact> ReadContactListFromFile(string filename)
     {
-        string jsonString = System.IO.File.ReadAllText(filename);
+        var jsonString = File.ReadAllText(filename);
         List<Contact>? contacts = JsonSerializer.Deserialize<List<Contact>>(jsonString);
-        if (contacts == null)
-        {
-            contacts = new List<Contact>();
-        }
+        contacts ??= new List<Contact>();
         return contacts;
     }
 

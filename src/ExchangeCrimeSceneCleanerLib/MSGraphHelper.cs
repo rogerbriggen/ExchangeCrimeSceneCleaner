@@ -1,12 +1,6 @@
 ﻿// Roger Briggen license this file to you under the MIT license.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Azure.Core;
 using Azure.Identity;
 using Microsoft.Graph;
@@ -56,7 +50,7 @@ public class MSGraphHelper
 
         // if the AuthenticationRecord has been persisted from a previous execution deserialize it
         // and pass it to the DeviceCodeCredentialOptions
-        if (System.IO.File.Exists(CacheFilename))
+        if (File.Exists(CacheFilename))
         {
             using FileStream readStream = new FileStream(CacheFilename, FileMode.Create, FileAccess.Read);
 
@@ -100,6 +94,4 @@ public class MSGraphHelper
         Console.WriteLine($"Your token: {response.Token}");
         return response.Token;
     }
-
-    
 }

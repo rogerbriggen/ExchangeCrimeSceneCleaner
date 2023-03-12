@@ -1,8 +1,6 @@
 ﻿// Roger Briggen license this file to you under the MIT license.
 //
 
-using System;
-using System.Collections.Generic;
 using Roger.Briggen.ExchangeCrimeSceneCleanerLib;
 using Microsoft.Extensions.Configuration;
 
@@ -44,7 +42,7 @@ public class Program
 
         // Get signed in user
         var user = MSGraphContactsHelper.GetMeAsync().Result;
-        Console.WriteLine($"Welcome {user!.DisplayName} {user!.Birthday}  {user.MailboxSettings.TimeZone}!\n");
+        Console.WriteLine($"Welcome {user!.DisplayName} {user!.Birthday}  {user.MailboxSettings?.TimeZone}!\n");
 
         //Get all contacts
         var contactList = MSGraphContactsHelper.GetAllContactsAsync().Result;
@@ -52,10 +50,10 @@ public class Program
         if (contactList != null)
         {
             //Write out all contacts
-            MSGraphContactsHelper.writeContactListToFile("allContacts.json", contactList);
+            MSGraphContactsHelper.WriteContactListToFile("allContacts.json", contactList);
             //Filter only those with a birthday
             var birthdayContactList = MSGraphContactsHelper.FilterOnlyBirthday(contactList);
-            MSGraphContactsHelper.writeContactListToFile("filteredContacts.json", birthdayContactList);
+            MSGraphContactsHelper.WriteContactListToFile("filteredContacts.json", birthdayContactList);
             Console.WriteLine($"Birthday contact count: {birthdayContactList!.Count}\n");
 
             //Write a list with contacts with a brithday but only very limited fields
@@ -64,7 +62,7 @@ public class Program
             {
                 birthdayContactListShort.Add(new BirthdayContact(contact));
             }
-            BirthdayContactJSON.writeBirthdayContactListToFile("filteredBirthdayContacts.json", birthdayContactListShort);
+            BirthdayContactJSON.WriteBirthdayContactListToFile("filteredBirthdayContacts.json", birthdayContactListShort);
         }
 
         Console.WriteLine($"Contact count: {contactList!.Count}\n");
