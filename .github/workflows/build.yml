@@ -42,19 +42,19 @@ jobs:
       run: dotnet publish src\ExchangeCrimeSceneCleanerCli\ExchangeCrimeSceneCleanerCli.csproj --configuration Release --self-contained true -r win-x64
 
     - name: Upload build artefact ExchangeCrimeSceneCleanerCli
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ExchangeCrimeSceneCleanerCli
         path: D:\a\ExchangeCrimeSceneCleaner\ExchangeCrimeSceneCleaner\src\ExchangeCrimeSceneCleanerCli\bin\Release\${{ env.RELEASE_SUBDIR }}\win-x64\publish
 
 #    - name: Upload build artefact ExchangeCrimeSceneCleanerLibUnitTest
-#      uses: actions/upload-artifact@v3
+#      uses: actions/upload-artifact@v4
 #      with:
 #        name: ExchangeCrimeSceneCleanerLibUnitTest
 #        path: D:\a\myDupFinder\myDupFinder\tests\rogerbriggen.myDupFinderLibUnitTest\bin\Release\${{ env.RELEASE_SUBDIR }}\
 
 #    - name: Upload build artefact myDupFinderUnitTest TestResults
-#      uses: actions/upload-artifact@v3
+#      uses: actions/upload-artifact@v4
 #      with:
 #        name: myDupFinderLibUnitTestCodeCoverage
 #        path: D:\a\myDupFinder\myDupFinder\tests\rogerbriggen.myDupFinderLibUnitTest\TestResults\
