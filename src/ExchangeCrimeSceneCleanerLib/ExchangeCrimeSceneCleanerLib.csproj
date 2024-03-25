@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.10.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Graph" Version="5.44.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.45.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.2" />
     <PackageReference Include="TimeZoneConverter" Version="6.1.0" />
   </ItemGroup>
